@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-//import Image from "next/image"
+import Image from "next/image"
 
 export function Hero() {
   const [mounted, setMounted] = useState(false)
