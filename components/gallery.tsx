@@ -29,12 +29,6 @@ const photos = [
     aspect: "aspect-square",
     colSpan: "",
   },
-  {
-    src: "/images/wedding-hero.jpg",
-    alt: "Wedding flowers",
-    aspect: "aspect-[4/3]",
-    colSpan: "",
-  },
 ]
 
 export function Gallery() {
