@@ -305,7 +305,7 @@ export function RsvpForm() {
                 id="message"
                 name="message"
                 rows={3}
-                placeholder="Слова для молодожёнов..."
+                placeholder="Просим вас написать имена гостей, если вы планируете прийти с ними. Также будем рады любому пожеланию или вопросу!"
               />
             </div>
 

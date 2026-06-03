@@ -1,16 +1,26 @@
 "use client"
 
 import { useEffect, useState } from "react"
-//import Image from "next/image"
+import Image from "next/image"
 
+/**
+ * Luxury hero with:
+ * - Page-load fade + upward drift on the whole block
+ * - Staggered text reveal: label → name → divider → subtitle → CTA
+ * - Slow floating ambient gradient (imperceptible drift)
+ * - Cinematic cubic-bezier easing throughout
+ * - Scroll indicator subtle pulse
+ */
 export function Hero() {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    // Brief delay so the browser has painted before the animation starts
     const t = setTimeout(() => setMounted(true), 80)
     return () => clearTimeout(t)
   }, [])
 
+  // Cinematic easing
   const ease = "cubic-bezier(0.22, 1, 0.36, 1)"
 
   function reveal(delay: number, extra?: React.CSSProperties): React.CSSProperties {
@@ -28,29 +38,23 @@ export function Hero() {
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
     >
       {/* Background image */}
-     <div className="absolute inset-0 z-0">
-  <video
-    autoPlay
-    muted
-    loop
-    playsInline
-    style={{
-      position: "absolute",
-      inset: 0,
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-      opacity: mounted ? 1 : 0,
-      transform: mounted ? "scale(1)" : "scale(1.04)",
-      transition: `opacity 2s ${ease} 0.1s, transform 6s ${ease} 0.1s`,
-    }}
-  >
-    <source src="/images/video/backgr.mp4" type="video/mp4" />
-      </video>
-    <div className="absolute inset-0 bg-background/65" />
-   </div>
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/wedding-hero.jpg"
+          alt="Wedding floral arrangement"
+          fill
+          className="object-cover"
+          style={{
+            opacity: mounted ? 0.18 : 0,
+            transform: mounted ? "scale(1)" : "scale(1.04)",
+            transition: `opacity 2s ${ease} 0.1s, transform 6s ${ease} 0.1s`,
+          }}
+          priority
+        />
+        <div className="absolute inset-0 bg-background/65" />
+      </div>
 
-      {/* Floating ambient gradient */}
+      {/* Floating ambient gradient — imperceptibly drifting */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-0"
@@ -63,7 +67,6 @@ export function Hero() {
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 flex flex-col items-center gap-6">
-
         {/* Label */}
         <p
           className="font-sans text-xs tracking-[0.32em] uppercase text-muted-foreground"
@@ -72,76 +75,19 @@ export function Hero() {
           Свадебное приглашение
         </p>
 
-        {/* Names — clipPath reveal left→right */}
-        <div style={reveal(0.35)}>
-          <svg
-            viewBox="0 0 800 150"
-            xmlns="http://www.w3.org/2000/svg"
-            style={{
-              width: "clamp(300px, 88vw, 820px)",
-              height: "auto",
-              overflow: "visible",
-            }}
-            aria-label="Ivan & Nelli"
-          >
-            <defs>
-              <clipPath id="revealClip">
-                <rect
-                  x="0"
-                  y="0"
-                  width="800"
-                  height="150"
-                  style={{
-                    transformOrigin: "left center",
-                    transform: mounted ? "scaleX(1)" : "scaleX(0)",
-                    transition: mounted
-                      ? "transform 5s cubic-bezier(0.25, 0, 0.1, 1) 0.5s"
-                      : "none",
-                  }}
-                />
-              </clipPath>
-            </defs>
-
-            {/* Ghost outline */}
-            <text
-              x="400"
-              y="118"
-              textAnchor="middle"
-              style={{
-                fontFamily: "var(--font-tangerine)",
-                fontSize: "124px",
-                fontWeight: 400,
-                fill: "none",
-                stroke: "currentColor",
-                strokeWidth: "0.4px",
-                opacity: 0.1,
-              }}
-              className="text-foreground"
-            >
-              Ivan &amp; Nelli
-            </text>
-
-            {/* Main text revealed by clipPath */}
-            <text
-              x="400"
-              y="118"
-              textAnchor="middle"
-              clipPath="url(#revealClip)"
-              style={{
-                fontFamily: "var(--font-tangerine)",
-                fontSize: "124px",
-                fontWeight: 400,
-                fill: "currentColor",
-              }}
-              className="text-foreground"
-            >
-              Ivan &amp; Nelli
-            </text>
-          </svg>
-        </div>
+        {/* Names — hero headline */}
+        <h1
+          className="text-[clamp(3.5rem,10vw,8rem)] leading-none tracking-[-0.01em] text-foreground text-balance"
+          style={{ ...reveal(0.35), fontFamily: 'var(--font-tangerine)' }}
+        >
+          Ivan & Nelli
+        </h1>
 
         {/* Date divider */}
-        <div className="flex items-center gap-4 mt-2" style={reveal(0.6)}>
+        <div
+          className="flex items-center gap-4 mt-2"
+          style={reveal(0.6)}
+        >
           <span className="block w-12 h-px bg-foreground/20" />
           <p className="font-sans text-xs tracking-[0.32em] uppercase text-muted-foreground">
             3 · 10 · 2026
@@ -194,6 +140,7 @@ export function Hero() {
         />
       </div>
 
+      {/* Keyframes — injected inline so they are scoped */}
       <style>{`
         @keyframes ambientDrift {
           0%   { transform: translate(0%, 0%) scale(1); }
