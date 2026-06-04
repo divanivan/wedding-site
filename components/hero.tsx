@@ -20,11 +20,9 @@ export function Hero() {
     const video = videoRef.current
     if (!video) return
 
-    // Жестко форсируем свойства в DOM-объект для iOS Safari в обход багов реакта
     video.muted = true
     video.playsInline = true
 
-    // Если видео уже начало играть само благодаря нативным атрибутам
     if (!video.paused) {
       setVideoActive(true)
     }
@@ -34,8 +32,7 @@ export function Hero() {
         await video.play()
         setVideoActive(true)
       } catch (error) {
-        console.log("Программный автоплей заблокирован, ожидаем нативный запуск:", error)
-        // Не сбрасываем videoActive в false, если видео по факту воспроизводится
+        console.log("Автоплей ограничен системой (возможно, энергосбережение):", error)
         if (!video.paused) {
           setVideoActive(true)
         }
@@ -44,6 +41,18 @@ export function Hero() {
 
     tryPlay()
   }, [])
+
+  // Функция для ручного запуска при клике на фон (для режима энергосбережения)
+  const handleBgClick = async () => {
+    const video = videoRef.current
+    if (!video || videoActive || videoFailed) return
+    try {
+      await video.play()
+      setVideoActive(true)
+    } catch {
+      setVideoFailed(true)
+    }
+  }
 
   const ease = "cubic-bezier(0.22, 1, 0.36, 1)"
 
@@ -56,72 +65,54 @@ export function Hero() {
     }
   }
 
-  if (!tr) return null // Ждём загрузки переводов
+  if (!tr) return null
 
   const showVideo = !videoFailed && videoActive
 
   return (
-    <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+    <section 
+      id="hero" 
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
+      onClick={handleBgClick}
+      style={{ cursor: !videoActive && !videoFailed ? "pointer" : "default" }}
+    >
+      {/* BACKGROUND ZONE */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/images/video-poster.jpg')" }} />
 
         {!videoFailed && (
           <video
-  ref={videoRef}
-  autoPlay
-  muted
-  loop
-  playsInline // Этого стандарта абсолютно достаточно для всех современных iPhone
-  preload="auto"
-  poster="/images/video-poster.jpg"
-  disableRemotePlayback
-  onPlay={() => setVideoActive(true)}
-  onPlaying={() => setVideoActive(true)}
-  onError={() => setVideoFailed(true)}
-  style={{
-    position: "absolute",
-    inset: 0,
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    opacity: showVideo ? 0.25 : 0,
-    pointerEvents: "none",
-    transform: mounted ? "scale(1)" : "scale(1.04)",
-    transition: `opacity 2s ${ease} 0.1s, transform 6s ${ease} 0.1s`,
-  }}
->
-  <source src="/images/video/backgr.mp4" type="video/mp4" />
-</video>
-        )}
-
-        {!videoActive && !videoFailed && (
-          <button
-            type="button"
-            className="absolute inset-0 flex items-center justify-center"
-            onClick={async () => {
-              const video = videoRef.current
-              if (!video) return
-              try {
-                await video.play()
-                setVideoActive(true)
-              } catch {
-                setVideoFailed(true)
-              }
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            disableRemotePlayback
+            onPlay={() => setVideoActive(true)}
+            onPlaying={() => setVideoActive(true)}
+            onError={() => setVideoFailed(true)}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              opacity: showVideo ? 0.25 : 0,
+              pointerEvents: "none",
+              transform: mounted ? "scale(1)" : "scale(1.04)",
+              transition: `opacity 2s ${ease} 0.1s, transform 6s ${ease} 0.1s`,
             }}
-            style={{ background: "rgba(0,0,0,0.18)" }}
           >
-            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/50 bg-black/40 text-white shadow-lg">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="5 3 19 12 5 21 5 3" />
-              </svg>
-            </div>
-          </button>
+            <source src="/images/video/backgr.mp4" type="video/mp4" />
+          </video>
         )}
       </div>
 
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0" style={{ background: "radial-gradient(ellipse 60% 40% at 30% 60%, oklch(0.82 0.035 60 / 0.15) 0%, transparent 70%)", animation: "ambientDrift 18s ease-in-out infinite alternate" }} />
 
-      <div className="relative z-10 text-center px-6 flex flex-col items-center gap-6">
+      {/* CONTENT ZONE */}
+      <div className="relative z-10 text-center px-6 flex flex-col items-center gap-6 pointer-events-none">
         <p className="font-sans text-xs tracking-[0.32em] uppercase text-foreground/70" style={reveal(0.1)}>
           {tr.label}
         </p>
@@ -148,7 +139,7 @@ export function Hero() {
           {tr.subtitle}
         </p>
 
-        <a href="#rsvp" className="mt-8 font-sans text-xs tracking-[0.22em] uppercase border border-foreground/45 text-foreground/75 px-8 py-3"
+        <a href="#rsvp" className="mt-8 font-sans text-xs tracking-[0.22em] uppercase border border-foreground/45 text-foreground/75 px-8 py-3 pointer-events-auto"
           style={{ ...reveal(1.1), transition: `opacity 1.4s ${ease} 1.1s, transform 1.4s ${ease} 1.1s, background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease` }}
           onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "var(--foreground)"; e.currentTarget.style.color = "var(--background)" }}
           onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "" }}
@@ -157,9 +148,24 @@ export function Hero() {
         </a>
       </div>
 
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2" style={reveal(1.5, { opacity: mounted ? 0.5 : 0 })}>
-        <span className="font-sans text-[10px] tracking-[0.22em] uppercase text-foreground/50">{tr.scroll}</span>
-        <span className="block w-px h-10 bg-foreground/35" style={{ animation: "scrollPulse 2.4s ease-in-out infinite" }} />
+      {/* BOTTOM CONTROL ZONE */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 select-none pointer-events-none" style={reveal(1.5, { opacity: mounted ? 0.5 : 0 })}>
+        {!videoActive && !videoFailed ? (
+          // Аккуратная подсказка вместо огромной кнопки по центру
+          <div className="flex flex-col items-center gap-2 animate-pulse">
+            <span className="font-sans text-[9px] tracking-[0.2em] uppercase text-foreground/60 text-center max-w-[180px]">
+              Tap anywhere to play video
+            </span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="text-foreground/60 mt-1">
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+          </div>
+        ) : (
+          <>
+            <span className="font-sans text-[10px] tracking-[0.22em] uppercase text-foreground/50">{tr.scroll}</span>
+            <span className="block w-px h-10 bg-foreground/35" style={{ animation: "scrollPulse 2.4s ease-in-out infinite" }} />
+          </>
+        )}
       </div>
 
       <style>{`
