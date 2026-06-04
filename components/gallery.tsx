@@ -6,10 +6,10 @@ import { FadeIn } from "@/components/fade-in"
 import { useLang } from "@/components/lang-context"
 
 const photos = [
-  { src: "/images/gallery-1.JPG", alt: "Ivan and Nelli portrait", aspect: "aspect-[3/4]", colSpan: "col-span-2 md:col-span-1 md:row-span-2" },
-  { src: "/images/gallery-2.JPG", alt: "Wedding venue", aspect: "aspect-square", colSpan: "" },
-  { src: "/images/gallery-3.JPG", alt: "Bridal bouquet", aspect: "aspect-[3/4]", colSpan: "" },
-  { src: "/images/gallery-4.JPG", alt: "Wedding rings", aspect: "aspect-square", colSpan: "" },
+  { src: "/images/gallery-1.jpg", alt: "Ivan and Nelli portrait", aspect: "aspect-[3/4]", colSpan: "col-span-2 md:col-span-1 md:row-span-2" },
+  { src: "/images/gallery-2.jpg", alt: "Wedding venue", aspect: "aspect-square", colSpan: "" },
+  { src: "/images/gallery-3.jpg", alt: "Bridal bouquet", aspect: "aspect-[3/4]", colSpan: "" },
+  { src: "/images/gallery-4.jpg", alt: "Wedding rings", aspect: "aspect-square", colSpan: "" },
 ]
 
 export function Gallery() {

@@ -29,9 +29,16 @@ export function Hero() {
   return (
     <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <video autoPlay muted loop playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: mounted ? 0.25 : 0, transform: mounted ? "scale(1)" : "scale(1.04)", transition: `opacity 2s ${ease} 0.1s, transform 6s ${ease} 0.1s` }}>
-          <source src="/images/video/backgr.mp4" type="video/mp4" />
-        </video>
+        <video 
+  autoPlay 
+  muted 
+  loop 
+  playsInline 
+  poster="/images/video-poster.jpg"
+  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: mounted ? 0.25 : 0, transform: mounted ? "scale(1)" : "scale(1.04)", transition: `opacity 2s ${ease} 0.1s, transform 6s ${ease} 0.1s` }}
+>
+  <source src="/images/video/backgr.mp4" type="video/mp4" />
+</video>
       </div>
 
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0" style={{ background: "radial-gradient(ellipse 60% 40% at 30% 60%, oklch(0.82 0.035 60 / 0.15) 0%, transparent 70%)", animation: "ambientDrift 18s ease-in-out infinite alternate" }} />
