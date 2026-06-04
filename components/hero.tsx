@@ -5,6 +5,8 @@ import { useLang } from "@/components/lang-context"
 
 export function Hero() {
   const [mounted, setMounted] = useState(false)
+  const [videoActive, setVideoActive] = useState(false)
+  const [videoFailed, setVideoFailed] = useState(false)
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const { t } = useLang()
   const tr = t.hero
@@ -17,12 +19,17 @@ export function Hero() {
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
-    const playPromise = video.play()
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        // Autoplay may be blocked on some mobile browsers; muted inline video should still work.
-      })
+
+    const tryPlay = async () => {
+      try {
+        await video.play()
+        setVideoActive(true)
+      } catch {
+        setVideoActive(false)
+      }
     }
+
+    tryPlay()
   }, [])
 
   const ease = "cubic-bezier(0.22, 1, 0.36, 1)"
@@ -38,22 +45,65 @@ export function Hero() {
 
   if (!tr) return null // Ждём загрузки переводов
 
+  const showVideo = !videoFailed && videoActive
+
   return (
     <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster="/images/video-poster.jpg"
-          webkit-playsinline="true"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: mounted ? 0.25 : 0, transform: mounted ? "scale(1)" : "scale(1.04)", transition: `opacity 2s ${ease} 0.1s, transform 6s ${ease} 0.1s` }}
-        >
-          <source src="/images/video/backgr.mp4" type="video/mp4" />
-        </video>
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/images/video-poster.jpg')" }} />
+
+        {!videoFailed && (
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/images/video-poster.jpg"
+            webkit-playsinline="true"
+            disableRemotePlayback
+            onPlay={() => setVideoActive(true)}
+            onError={() => setVideoFailed(true)}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              opacity: showVideo ? 0.25 : 0,
+              pointerEvents: "none",
+              transform: mounted ? "scale(1)" : "scale(1.04)",
+              transition: `opacity 2s ${ease} 0.1s, transform 6s ${ease} 0.1s`,
+            }}
+          >
+            <source src="/images/video/backgr.mp4" type="video/mp4" />
+          </video>
+        )}
+
+        {!videoActive && !videoFailed && (
+          <button
+            type="button"
+            className="absolute inset-0 flex items-center justify-center"
+            onClick={async () => {
+              const video = videoRef.current
+              if (!video) return
+              try {
+                await video.play()
+                setVideoActive(true)
+              } catch {
+                setVideoFailed(true)
+              }
+            }}
+            style={{ background: "rgba(0,0,0,0.18)" }}
+          >
+            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/50 bg-black/40 text-white shadow-lg">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg>
+            </div>
+          </button>
+        )}
       </div>
 
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0" style={{ background: "radial-gradient(ellipse 60% 40% at 30% 60%, oklch(0.82 0.035 60 / 0.15) 0%, transparent 70%)", animation: "ambientDrift 18s ease-in-out infinite alternate" }} />
