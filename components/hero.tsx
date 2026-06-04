@@ -20,12 +20,25 @@ export function Hero() {
     const video = videoRef.current
     if (!video) return
 
+    // Жестко форсируем свойства в DOM-объект для iOS Safari в обход багов реакта
+    video.muted = true
+    video.playsInline = true
+
+    // Если видео уже начало играть само благодаря нативным атрибутам
+    if (!video.paused) {
+      setVideoActive(true)
+    }
+
     const tryPlay = async () => {
       try {
         await video.play()
         setVideoActive(true)
-      } catch {
-        setVideoActive(false)
+      } catch (error) {
+        console.log("Программный автоплей заблокирован, ожидаем нативный запуск:", error)
+        // Не сбрасываем videoActive в false, если видео по факту воспроизводится
+        if (!video.paused) {
+          setVideoActive(true)
+        }
       }
     }
 
@@ -54,31 +67,31 @@ export function Hero() {
 
         {!videoFailed && (
           <video
-            ref={videoRef}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            poster="/images/video-poster.jpg"
-            webkit-playsinline="true"
-            disableRemotePlayback
-            onPlay={() => setVideoActive(true)}
-            onError={() => setVideoFailed(true)}
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              opacity: showVideo ? 0.25 : 0,
-              pointerEvents: "none",
-              transform: mounted ? "scale(1)" : "scale(1.04)",
-              transition: `opacity 2s ${ease} 0.1s, transform 6s ${ease} 0.1s`,
-            }}
-          >
-            <source src="/images/video/backgr.mp4" type="video/mp4" />
-          </video>
+  ref={videoRef}
+  autoPlay
+  muted
+  loop
+  playsInline // Этого стандарта абсолютно достаточно для всех современных iPhone
+  preload="auto"
+  poster="/images/video-poster.jpg"
+  disableRemotePlayback
+  onPlay={() => setVideoActive(true)}
+  onPlaying={() => setVideoActive(true)}
+  onError={() => setVideoFailed(true)}
+  style={{
+    position: "absolute",
+    inset: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    opacity: showVideo ? 0.25 : 0,
+    pointerEvents: "none",
+    transform: mounted ? "scale(1)" : "scale(1.04)",
+    transition: `opacity 2s ${ease} 0.1s, transform 6s ${ease} 0.1s`,
+  }}
+>
+  <source src="/images/video/backgr.mp4" type="video/mp4" />
+</video>
         )}
 
         {!videoActive && !videoFailed && (
