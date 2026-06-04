@@ -5,11 +5,11 @@
 
 :root {
   /* Luxury ivory wedding palette */
-  --background: oklch(0.985 0.006 80);      /* warm ivory */
+  --background: oklch(0.985 0.006 80);      /* тот самый красивый warm ivory */
   --foreground: oklch(0.22 0.01 60);         /* deep warm charcoal */
-  --card: oklch(1 0 0);                      /* pure white */
+  --card: oklch(0.985 0.006 80);             /* ИСПРАВЛЕНО: делаем карточки/блоки кремовыми вместо белых */
   --card-foreground: oklch(0.22 0.01 60);
-  --popover: oklch(1 0 0);
+  --popover: oklch(0.985 0.006 80);          /* ИСПРАВЛЕНО: для всплывающих элементов */
   --popover-foreground: oklch(0.22 0.01 60);
   --primary: oklch(0.22 0.01 60);            /* deep charcoal */
   --primary-foreground: oklch(0.985 0.006 80);
