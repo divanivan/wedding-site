@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import { Nav } from "@/components/nav"
 import { Hero } from "@/components/hero"
-import { OurStory } from "@/components/our-story"
 import { Gallery } from "@/components/gallery"
 import { EventDetails } from "@/components/event-details"
 import { RsvpForm } from "@/components/rsvp-form"
@@ -40,7 +39,6 @@ export default function WeddingPage() {
       <main className="min-h-screen bg-background">
         <Nav />
         <Hero />
-        <OurStory />
         <Gallery />
         <EventDetails />
         <RsvpForm />
