@@ -11,6 +11,11 @@ const photos = [
   { src: "/images/gallery-2.jpg", alt: "Wedding venue" },
   { src: "/images/gallery-3.jpg", alt: "Bridal bouquet" },
   { src: "/images/gallery-4.jpg", alt: "Wedding rings" },
+  { src: "/images/gallery-5.jpg", alt: "Wedding rings" },
+  { src: "/images/gallery-6.jpg", alt: "Wedding rings" },
+  { src: "/images/gallery-7.jpg", alt: "Wedding rings" },
+  { src: "/images/gallery-8.jpg", alt: "Wedding rings" },
+  { src: "/images/gallery-9.jpg", alt: "Wedding rings" },
 ]
 
 export function Gallery() {
