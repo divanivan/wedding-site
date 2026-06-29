@@ -98,7 +98,7 @@ export function Hero() {
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              opacity: showVideo ? 0.25 : 0,
+              opacity: showVideo ? 0.30 : 0,
               pointerEvents: "none",
               transform: mounted ? "scale(1)" : "scale(1.04)",
               transition: `opacity 2s ${ease} 0.1s, transform 6s ${ease} 0.1s`,
@@ -149,9 +149,9 @@ export function Hero() {
       </div>
 
       {/* BOTTOM CONTROL ZONE */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 select-none pointer-events-none" style={reveal(1.5, { opacity: mounted ? 0.5 : 0 })}>
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 select-none pointer-events-none" style={reveal(1.5, { opacity: mounted ? 1 : 0 })}>
         {!videoActive && !videoFailed ? (
-          // Аккуратная подсказка вместо огромной кнопки по центру
+          // Аккуратная подсказка вместо огромной кнопки по центру  
           <div className="flex flex-col items-center gap-2 animate-pulse">
             <span className="font-sans text-[9px] tracking-[0.2em] uppercase text-foreground/60 text-center max-w-[180px]">
               Tap anywhere to play video
