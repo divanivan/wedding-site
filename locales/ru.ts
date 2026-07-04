@@ -34,12 +34,12 @@ export default {
     groomLabel: "Жених",
     brideLabel: "Невеста",
     scheduleLabel: "Программа",
-  schedule: [
-  { time: "10:00", label: "Сборы у жениха", desc: "" },
-  { time: "11:30", label: "Выезд за невестой", desc: "" },
-  { time: "13:00", label: "Выезд в церковь", desc: "" },
-  { time: "17:00–18:00", label: "Сбор гостей в ресторане", desc: "" },
-],
+    schedule: [
+      { time: "11:30", label: "Приезд Жениха к невесте", icon: "heart" },
+      { time: "13:00", label: "Выезд в церковь", icon: "car" },
+      { time: "16:30", label: "Выездная регистрация", icon: "ring" },
+      { time: "17:00", label: "Сбор гостей в ресторане", icon: "restaurant" },
+    ],
     venueLabel: "Место проведения",
     venueTitle: "Площадка торжества",
     venueHint: "Нажмите на фото, чтобы открыть в картах",

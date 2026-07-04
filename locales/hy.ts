@@ -34,12 +34,12 @@ export default {
     groomLabel: "Փեսա",
     brideLabel: "Հարսնացու",
     scheduleLabel: "Ծրագիր",
-  schedule: [
-  { time: "10:00", label: "Հավաք փեսայի մոտ", desc: "" },
-  { time: "11:30", label: "Մեկնում հարսնացուի հետևից", desc: "" },
-  { time: "13:00", label: "Մեկնում եկեղեցի", desc: "" },
-  { time: "17:00–18:00", label: "Հյուրերի հավաք ռեստորանում", desc: "" },
-],
+    schedule: [
+      { time: "11:30", label: "Փեսայի ժամանում հարսնացուի մոտ", icon: "heart" },
+      { time: "13:00", label: "Մեկում եկեղեցի", icon: "car" },
+      { time: "16:30", label: "Ելքային գրանցում", icon: "ring" },
+      { time: "17:00", label: "Հյուրերի հավաք ռեստորանում", icon: "restaurant" },
+    ],
     venueLabel: "Հանդիպման վայրը",
     venueTitle: "Տոնակատարության վայրը",
     venueHint: "Սեղմեք լուսանկարի վրա՝ քարտեզում բացելու համար",

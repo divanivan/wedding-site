@@ -10,6 +10,50 @@ export function EventDetails() {
 
   if (!tr) return null
 
+  const renderScheduleIcon = (icon: string) => {
+    switch (icon) {
+      case "church":
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 2v5M10 4h4" />
+            <path d="M6 21V11l6-6 6 6v10" />
+            <path d="M9 21v-4a3 3 0 0 1 6 0v4" />
+          </svg>
+        )
+      case "car":
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="6" rx="1.5" />
+            <path d="M5 11V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4" />
+            <circle cx="7" cy="17" r="1.5" />
+            <circle cx="17" cy="17" r="1.5" />
+          </svg>
+        )
+      case "ring":
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <circle cx="9" cy="14" r="5" />
+            <circle cx="15" cy="10" r="5" />
+          </svg>
+        )
+      case "restaurant":
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 15v7M8 22h8M7 3h10v5c0 2.8-2.2 5-5 5s-5-2.2-5-5V3Z" />
+          </svg>
+        )
+      case "heart":
+      default:
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+          </svg>
+        )
+    }
+  }
+
+  const scheduleItems = tr.schedule ?? []
+
   return (
     <section id="details" className="py-32 px-6">
       <div className="max-w-5xl mx-auto">
@@ -22,7 +66,7 @@ export function EventDetails() {
         </FadeIn>
 
         <div className="grid md:grid-cols-2 gap-16">
-          <div className="flex flex-col gap-8 md:justify-center">
+          <div className="flex flex-col gap-10 md:justify-center">
             <FadeIn delay={0.1} blur>
               <div className="border-l-2 border-foreground/12 pl-8 pr-2"
                 style={{ transition: "border-color 0.5s ease" }}
@@ -35,21 +79,26 @@ export function EventDetails() {
               </div>
             </FadeIn>
 
-            <FadeIn delay={0.2} blur>
-              <div className="rounded-[1.5rem] border border-border/70 bg-background/60 px-6 py-5 backdrop-blur-sm">
-                <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-4">{tr.contactsLabel}</p>
-                <div className="space-y-3">
-                  <div className="flex items-start justify-between gap-4 border-b border-border/60 pb-3">
-                    <span className="font-serif text-base text-foreground">{tr.groomLabel}</span>
-                    <a href="tel:+79286500848" className="font-sans text-sm text-foreground/80 transition-colors hover:text-foreground">+7 (928) 650 08 48</a>
-                  </div>
-                  <div className="flex items-start justify-between gap-4">
-                    <span className="font-serif text-base text-foreground">{tr.brideLabel}</span>
-                    <a href="tel:+79614912027" className="font-sans text-sm text-foreground/80 transition-colors hover:text-foreground">+7 (961) 491 20 27</a>
+            {scheduleItems.length > 0 && (
+              <FadeIn delay={0.2} blur>
+                <div className="px-1 py-1">
+                  <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-5">{tr.scheduleLabel}</p>
+                  <div className="space-y-6">
+                    {scheduleItems.map((item: { time: string; label: string; icon?: string }) => (
+                      <div key={`${item.time}-${item.label}`} className="flex items-start gap-4">
+                        <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border/30 bg-background/40 text-foreground/80 transition-colors duration-300 hover:border-foreground/30 hover:text-foreground">
+                          {renderScheduleIcon(item.icon ?? "heart")}
+                        </div>
+                        <div>
+                          <p className="font-sans text-[13px] tracking-[0.25em] uppercase text-muted-foreground mb-1">{item.time}</p>
+                          <p className="font-serif text-[1.25rem] leading-snug text-foreground">{item.label}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
-            </FadeIn>
+              </FadeIn>
+            )}
           </div>
 
           <FadeIn delay={0.15} blur>
@@ -87,6 +136,25 @@ export function EventDetails() {
                 </svg>
                 {tr.mapBtn}
               </a>
+            </div>
+          </FadeIn>
+        </div>
+
+        <div className="mt-24 flex justify-center">
+          <FadeIn delay={0.25} blur>
+            <div className="w-full max-w-lg rounded-[2rem] border border-border/60 bg-background/40 px-10 py-7 backdrop-blur-sm text-center">
+              <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-5">{tr.contactsLabel}</p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-14">
+                <div className="flex flex-col items-center">
+                  <span className="font-serif text-[1.1rem] text-foreground mb-1">{tr.groomLabel}</span>
+                  <a href="tel:+79286500848" className="font-sans text-sm text-foreground/80 transition-colors hover:text-foreground hover:underline decoration-foreground/30 underline-offset-4">+7 (928) 650 08 48</a>
+                </div>
+                <div className="hidden sm:block w-px h-8 bg-border/60" />
+                <div className="flex flex-col items-center">
+                  <span className="font-serif text-[1.1rem] text-foreground mb-1">{tr.brideLabel}</span>
+                  <a href="tel:+79614912027" className="font-sans text-sm text-foreground/80 transition-colors hover:text-foreground hover:underline decoration-foreground/30 underline-offset-4">+7 (961) 491 20 27</a>
+                </div>
+              </div>
             </div>
           </FadeIn>
         </div>
