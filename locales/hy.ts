@@ -30,6 +30,9 @@ export default {
     title: "Վայրը և ժամը",
     dateLabel: "Ամսաթիվ և ժամ",
     dateText: "Շաբաթ, հոկտեմբերի 3",
+    contactsLabel: "Հետադարձ կապ",
+    groomLabel: "Փեսա",
+    brideLabel: "Հարսնացու",
     scheduleLabel: "Ծրագիր",
   schedule: [
   { time: "10:00", label: "Հավաք փեսայի մոտ", desc: "" },
@@ -43,7 +46,7 @@ export default {
     mapBtn: "Բացել Yandex քարտեզում",
   },
   rsvp: {
-    label: "Խնդրում ենք պատասխանել մինչև 2026 թ. օգոստոսի 1-ը",
+    label: "Խնդրում ենք պատասխանել մինչև 2026 թ. սեպտեմբերի 1-ը",
     title: "Խնդրում ենք պատասխանել",
     nameLabel: "Անուն և ազգանուն",
     namePlaceholder: "Ձեր անունը և ազգանունը",
@@ -52,7 +55,7 @@ export default {
     no: "Ցավոք, չեմ կարողանա",
     guestsLabel: "Հյուրերի քանակը",
     messageLabel: "Հաղորդագրություն",
-    messageOptional: "կամընտիր",
+    messageOptional: "",
     messagePlaceholder: "Խնդրում ենք գրել հյուրերի անունները, եթե պատրաստվում եք գալ նրանց հետ։ Ուրախ կլինենք ցանկացած մաղթանքի կամ հարցի համար։",
     submit: "Հաստատել մասնակցությունը",
     submitting: "Ուղարկում...",

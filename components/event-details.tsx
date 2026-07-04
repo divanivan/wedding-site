@@ -22,37 +22,32 @@ export function EventDetails() {
         </FadeIn>
 
         <div className="grid md:grid-cols-2 gap-16">
-          <div className="flex flex-col gap-12">
+          <div className="flex flex-col gap-8 md:justify-center">
             <FadeIn delay={0.1} blur>
-              <div className="border-l-2 border-foreground/12 pl-8"
+              <div className="border-l-2 border-foreground/12 pl-8 pr-2"
                 style={{ transition: "border-color 0.5s ease" }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "oklch(var(--foreground) / 0.3)" }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "" }}
               >
-                <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-3">{tr.dateLabel}</p>
-                <p className="font-serif font-light text-3xl text-foreground mb-1">{tr.dateText}</p>
-                <p className="font-serif font-light text-2xl text-muted-foreground">2026</p>
+                <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-4">{tr.dateLabel}</p>
+                <p className="font-serif font-light text-[clamp(2rem,3.8vw,3.2rem)] leading-[1.05] text-foreground mb-2">{tr.dateText}</p>
+                <p className="font-serif text-[1.35rem] text-muted-foreground/80">2026</p>
               </div>
             </FadeIn>
 
             <FadeIn delay={0.2} blur>
-              <div>
-                <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-6">{tr.scheduleLabel}</p>
-                <ul className="flex flex-col gap-0">
-                  {tr.schedule.map((item: { time: string; label: string; desc: string }) => (
-                    <li key={item.time} className="flex items-start gap-6 py-4 border-b border-border last:border-0"
-                      style={{ transition: "background-color 0.4s ease" }}
-                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = "oklch(var(--muted) / 0.5)" }}
-                      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = "transparent" }}
-                    >
-                      <span className="font-sans text-xs text-muted-foreground w-12 shrink-0 pt-0.5">{item.time}</span>
-                      <div>
-                        <p className="font-serif font-light text-base text-foreground">{item.label}</p>
-                        <p className="font-sans text-xs text-muted-foreground mt-0.5">{item.desc}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+              <div className="rounded-[1.5rem] border border-border/70 bg-background/60 px-6 py-5 backdrop-blur-sm">
+                <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-4">{tr.contactsLabel}</p>
+                <div className="space-y-3">
+                  <div className="flex items-start justify-between gap-4 border-b border-border/60 pb-3">
+                    <span className="font-serif text-base text-foreground">{tr.groomLabel}</span>
+                    <a href="tel:+79286500848" className="font-sans text-sm text-foreground/80 transition-colors hover:text-foreground">+7 (928) 650 08 48</a>
+                  </div>
+                  <div className="flex items-start justify-between gap-4">
+                    <span className="font-serif text-base text-foreground">{tr.brideLabel}</span>
+                    <a href="tel:+79614912027" className="font-sans text-sm text-foreground/80 transition-colors hover:text-foreground">+7 (961) 491 20 27</a>
+                  </div>
+                </div>
               </div>
             </FadeIn>
           </div>

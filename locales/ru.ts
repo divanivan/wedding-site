@@ -30,6 +30,9 @@ export default {
     title: "Место и время",
     dateLabel: "Дата и время",
     dateText: "Суббота, 3 октября",
+    contactsLabel: "Контакты",
+    groomLabel: "Жених",
+    brideLabel: "Невеста",
     scheduleLabel: "Программа",
   schedule: [
   { time: "10:00", label: "Сборы у жениха", desc: "" },
@@ -43,7 +46,7 @@ export default {
     mapBtn: "Открыть в Yandex картах",
   },
   rsvp: {
-    label: "Ответьте, пожалуйста, до 1 Августа 2026",
+    label: "Ответьте, пожалуйста, до 1 Сентября 2026",
     title: "Пожалуйста, ответьте",
     nameLabel: "Имя и фамилия",
     namePlaceholder: "Ваше имя и фамилия",
@@ -52,7 +55,7 @@ export default {
     no: "К сожалению, не смогу",
     guestsLabel: "Количество гостей",
     messageLabel: "Сообщение",
-    messageOptional: "необязательно",
+    messageOptional: "",
     messagePlaceholder: "Просим вас написать имена гостей, если вы планируете прийти с ними. Также будем рады любому пожеланию или вопросу!",
     submit: "Подтвердить участие",
     submitting: "Отправляем...",
