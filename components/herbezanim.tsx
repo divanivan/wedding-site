@@ -75,13 +75,66 @@ export function Hero() {
           Свадебное приглашение
         </p>
 
-        {/* Names — hero headline */}
-        <h1
-          className="text-[clamp(3.5rem,10vw,8rem)] leading-none tracking-[-0.01em] text-foreground text-balance"
-          style={{ ...reveal(0.35), fontFamily: 'var(--font-tangerine)' }}
-        >
-          Ivan & Nelli
-        </h1>
+        {/* Names — hero headline with SVG handwriting animation */}
+        <div style={reveal(0.35)}>
+          <svg
+            viewBox="0 0 800 150"
+            width="100%"
+            height="auto"
+            style={{
+              maxWidth: "600px",
+              filter: "drop-shadow(0 0 1px rgba(0,0,0,0.05))",
+            }}
+          >
+            <text
+              x="50%"
+              y="80"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              style={{
+                fontSize: "clamp(3.5rem, 10vw, 8rem)",
+                fontFamily: "var(--font-tangerine)",
+                fontWeight: "400",
+                fill: "none",
+                stroke: "currentColor",
+                color: "var(--foreground)",
+                strokeWidth: "1.2",
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                paintOrder: "stroke fill",
+                animation: mounted
+                  ? "handwriteDraw 2.5s cubic-bezier(0.22, 1, 0.36, 1) 0s forwards, handwriteFill 0.6s ease-out 2.5s forwards"
+                  : "none",
+              }}
+            >
+              Ivan & Nelli
+            </text>
+          </svg>
+          <style>{`
+            @keyframes handwriteDraw {
+              from {
+                stroke-dashoffset: 2000;
+                stroke-dasharray: 2000;
+                opacity: 1;
+              }
+              to {
+                stroke-dashoffset: 0;
+                stroke-dasharray: 2000;
+                opacity: 1;
+              }
+            }
+            @keyframes handwriteFill {
+              from {
+                fill: none;
+                opacity: 1;
+              }
+              to {
+                fill: currentColor;
+                opacity: 1;
+              }
+            }
+          `}</style>
+        </div>
 
         {/* Date divider */}
         <div
