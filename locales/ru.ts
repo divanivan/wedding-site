@@ -35,7 +35,7 @@ export default {
     brideLabel: "Невеста",
     scheduleLabel: "Программа",
     schedule: [
-      { time: "13:00", label: "Венчание в церкви", icon: "church" },
+      { time: "14:00", label: "Венчание в церкви", icon: "church" },
       { time: "16:30", label: "Выездная регистрация", icon: "ring" },
       { time: "17:00", label: "Сбор гостей в ресторане", icon: "restaurant" },
     ],

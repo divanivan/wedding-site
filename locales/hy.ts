@@ -35,7 +35,7 @@ export default {
     brideLabel: "Հարսնացու",
     scheduleLabel: "Ծրագիր",
     schedule: [
-      { time: "13:00", label: "Պսակադրություն եկեղեցում", icon: "church" },
+      { time: "14:00", label: "Պսակադրություն եկեղեցում", icon: "church" },
       { time: "16:30", label: "Ելքային գրանցում", icon: "ring" },
       { time: "17:00", label: "Հյուրերի հավաք ռեստորանում", icon: "restaurant" },
     ],
